@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,8 @@ Route::group(['middleware' => ['auth']], function() {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::resource('categories', CategoryController::class)
-    ->middleware('is_admin');
+    Route::group(['middleware' => ['is_admin']], function() {
+        Route::resource('categories', CategoryController::class);
+        Route::resource('posts', PostController::class);
+    });
 });
